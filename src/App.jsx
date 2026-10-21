@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const MOVIES = [
   { id: 1, title: 'Stellar Odyssey', genre: 'Sci-Fi', rating: 8.7, emoji: '🚀' },
@@ -16,27 +16,48 @@ const MUSIC = [
   { id: 4, title: 'Electric Dreams', artist: 'Synthwave Co.', emoji: '⚡' },
 ]
 
+const THEME_KEY = 'hungama-theme'
+
+function loadTheme() {
+  return localStorage.getItem(THEME_KEY) === 'light'
+}
+
 export default function App() {
   const [tab, setTab] = useState('movies')
+  const [light, setLight] = useState(loadTheme)
+
+  useEffect(() => {
+    document.body.classList.toggle('light', light)
+    localStorage.setItem(THEME_KEY, light ? 'light' : 'dark')
+  }, [light])
 
   return (
     <div className="app">
       <header className="navbar">
         <h1>🎬 Hungama</h1>
-        <nav>
+        <div className="navbar-right">
           <button
-            className={tab === 'movies' ? 'active' : ''}
-            onClick={() => setTab('movies')}
+            className="theme-toggle"
+            onClick={() => setLight((v) => !v)}
+            aria-label="Toggle theme"
           >
-            Movies
+            {light ? '🌙' : '☀️'}
           </button>
-          <button
-            className={tab === 'music' ? 'active' : ''}
-            onClick={() => setTab('music')}
-          >
-            Music
-          </button>
-        </nav>
+          <nav>
+            <button
+              className={tab === 'movies' ? 'active' : ''}
+              onClick={() => setTab('movies')}
+            >
+              Movies
+            </button>
+            <button
+              className={tab === 'music' ? 'active' : ''}
+              onClick={() => setTab('music')}
+            >
+              Music
+            </button>
+          </nav>
+        </div>
       </header>
 
       <section className="hero">
