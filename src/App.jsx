@@ -25,11 +25,25 @@ function loadTheme() {
 export default function App() {
   const [tab, setTab] = useState('movies')
   const [light, setLight] = useState(loadTheme)
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     document.body.classList.toggle('light', light)
     localStorage.setItem(THEME_KEY, light ? 'light' : 'dark')
   }, [light])
+
+  useEffect(() => {
+    setQuery('')
+  }, [tab])
+
+  const filterItems = (items) => {
+    const q = query.trim().toLowerCase()
+    if (!q) return items
+    return items.filter((i) => i.title.toLowerCase().includes(q))
+  }
+
+  const filteredMovies = filterItems(MOVIES)
+  const filteredMusic = filterItems(MUSIC)
 
   return (
     <div className="app">
@@ -69,35 +83,43 @@ export default function App() {
         {tab === 'movies' ? (
           <>
             <h3>Trending Movies</h3>
-            <div className="grid">
-              {MOVIES.map((m) => (
-                <div key={m.id} className="card">
-                  <div className="card-image">{m.emoji}</div>
-                  <div className="card-body">
-                    <h4>{m.title}</h4>
-                    <p>{m.genre}</p>
-                    <span className="badge">⭐ {m.rating}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
           </>
         ) : (
           <>
             <h3>Top Tracks</h3>
-            <div className="grid">
-              {MUSIC.map((t) => (
-                <div key={t.id} className="card">
-                  <div className="card-image">{t.emoji}</div>
-                  <div className="card-body">
-                    <h4>{t.title}</h4>
-                    <p>{t.artist}</p>
-                    <span className="badge">▶ Play</span>
-                  </div>
-                </div>
-              ))}
-            </div>
           </>
+        )}
+        <div className="search-row">
+          <input
+            type="search"
+            className="search-input"
+            placeholder={
+              tab === 'movies' ? 'Search movies...' : 'Search tracks...'
+            }
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            aria-label="Search"
+          />
+        </div>
+        <div className="grid">
+          {(tab === 'movies' ? filteredMovies : filteredMusic).map((item) => (
+            <div key={item.id} className="card">
+              <div className="card-image">{item.emoji}</div>
+              <div className="card-body">
+                <h4>{item.title}</h4>
+                <p>{tab === 'movies' ? item.genre : item.artist}</p>
+                <span className="badge">
+                  {tab === 'movies' ? `⭐ ${item.rating}` : '▶ Play'}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+        {tab === 'movies' && filteredMovies.length === 0 && (
+          <p className="empty-state">No movies match "{query}".</p>
+        )}
+        {tab === 'music' && filteredMusic.length === 0 && (
+          <p className="empty-state">No tracks match "{query}".</p>
         )}
       </section>
 

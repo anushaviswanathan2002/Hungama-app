@@ -19,4 +19,5 @@ npm run dev
 
 - Switch between Movies and Music tabs
 - Browse a curated list of trending titles
+- Live search filter across titles
 - Responsive card grid

@@ -114,6 +114,41 @@ body.light .theme-toggle:hover {
   color: #e94560;
 }
 
+.search-row {
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 420px;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #533483;
+  border-radius: 6px;
+  background: #1a1a2e;
+  color: #e4e6eb;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #e94560;
+}
+
+body.light .search-input {
+  background: #fff;
+  border-color: #d0d4dd;
+  color: #2d3436;
+}
+
+.empty-state {
+  color: #999;
+  padding: 1rem 0;
+}
+
+body.light .empty-state {
+  color: #636e72;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
