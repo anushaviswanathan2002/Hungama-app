@@ -17,15 +17,28 @@ const MUSIC = [
 ]
 
 const THEME_KEY = 'hungama-theme'
+const FAV_KEY = 'hungama-favorites'
 
 function loadTheme() {
   return localStorage.getItem(THEME_KEY) === 'light'
+}
+
+function loadFavorites() {
+  try {
+    const raw = localStorage.getItem(FAV_KEY)
+    if (raw) return JSON.parse(raw)
+  } catch {
+    /* ignore */
+  }
+  return []
 }
 
 export default function App() {
   const [tab, setTab] = useState('movies')
   const [light, setLight] = useState(loadTheme)
   const [query, setQuery] = useState('')
+  const [favorites, setFavorites] = useState(loadFavorites)
+  const [showFavs, setShowFavs] = useState(false)
 
   useEffect(() => {
     document.body.classList.toggle('light', light)
@@ -33,13 +46,31 @@ export default function App() {
   }, [light])
 
   useEffect(() => {
+    localStorage.setItem(FAV_KEY, JSON.stringify(favorites))
+  }, [favorites])
+
+  const toggleFavorite = (item) => {
+    setFavorites((prev) => {
+      if (prev.some((f) => f.id === item.id)) {
+        return prev.filter((f) => f.id !== item.id)
+      }
+      return [...prev, item]
+    })
+  }
+
+  const isFavorite = (id) => favorites.some((f) => f.id === id)
+
+  useEffect(() => {
     setQuery('')
   }, [tab])
 
   const filterItems = (items) => {
     const q = query.trim().toLowerCase()
-    if (!q) return items
-    return items.filter((i) => i.title.toLowerCase().includes(q))
+    return items.filter((i) => {
+      const matchesQuery = !q || i.title.toLowerCase().includes(q)
+      const matchesFav = !showFavs || isFavorite(i.id)
+      return matchesQuery && matchesFav
+    })
   }
 
   const filteredMovies = filterItems(MOVIES)
@@ -50,6 +81,17 @@ export default function App() {
       <header className="navbar">
         <h1>🎬 Hungama</h1>
         <div className="navbar-right">
+          <button
+            className={`fav-toggle ${showFavs ? 'active' : ''}`}
+            onClick={() => setShowFavs((v) => !v)}
+            aria-label="Show favorites"
+            aria-pressed={showFavs}
+          >
+            ❤️
+            {favorites.length > 0 && (
+              <span className="fav-badge">{favorites.length}</span>
+            )}
+          </button>
           <button
             className="theme-toggle"
             onClick={() => setLight((v) => !v)}
@@ -104,6 +146,16 @@ export default function App() {
         <div className="grid">
           {(tab === 'movies' ? filteredMovies : filteredMusic).map((item) => (
             <div key={item.id} className="card">
+              <button
+                type="button"
+                className={`fav-btn ${isFavorite(item.id) ? 'active' : ''}`}
+                onClick={() => toggleFavorite(item)}
+                aria-label={
+                  isFavorite(item.id) ? 'Remove from favorites' : 'Add to favorites'
+                }
+              >
+                {isFavorite(item.id) ? '❤️' : '🤍'}
+              </button>
               <div className="card-image">{item.emoji}</div>
               <div className="card-body">
                 <h4>{item.title}</h4>

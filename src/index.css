@@ -161,6 +161,7 @@ body.light .empty-state {
   overflow: hidden;
   transition: transform 0.2s;
   cursor: pointer;
+  position: relative;
 }
 
 body.light .card {
@@ -213,4 +214,64 @@ body.light .card {
 body.light .footer {
   background: #fff;
   color: #636e72;
+}
+
+.fav-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(0, 0, 0, 0.55);
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.fav-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+  transform: scale(1.08);
+}
+
+.fav-btn.active {
+  background: #e94560;
+}
+
+.fav-toggle {
+  position: relative;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: inherit;
+  border-radius: 4px;
+  padding: 0.4rem 0.7rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.fav-toggle:hover,
+.fav-toggle.active {
+  background: rgba(233, 69, 96, 0.2);
+  border-color: #e94560;
+}
+
+.fav-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e94560;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
 }
