@@ -1,0 +1,132 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0f0f1e;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  background: linear-gradient(90deg, #1a1a2e, #16213e);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar h1 {
+  color: #e94560;
+  font-size: 1.8rem;
+}
+
+.navbar nav button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  margin-left: 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.navbar nav button:hover,
+.navbar nav button.active {
+  background: #e94560;
+}
+
+.hero {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #e94560, #533483);
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.section {
+  padding: 2rem;
+  flex: 1;
+}
+
+.section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #e94560;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: #1a1a2e;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-image {
+  width: 100%;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+.card-body h4 {
+  margin-bottom: 0.25rem;
+}
+
+.card-body p {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.badge {
+  display: inline-block;
+  background: #e94560;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.footer {
+  background: #1a1a2e;
+  padding: 1rem;
+  text-align: center;
+  color: #888;
+}
